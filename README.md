@@ -1,6 +1,6 @@
 # test_task_kommercGroup
 
-main script in - test_task.py
+main script in - test_tasks.py
 
 data was uploaded in - output.xlsx
 

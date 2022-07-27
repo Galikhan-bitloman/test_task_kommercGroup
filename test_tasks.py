@@ -70,17 +70,16 @@ from_df_to_xlsx(all_col_second, 'second_sheet', 'output2.xlsx', Workbook())
 from_df_to_xlsx(all_col_third, 'third_sheet', 'output3.xlsx', Workbook())
 
 
-client = MongoClient('localhost', 27017)
-
-def from_xlsx_to_mongodb(output_name, col_name):
-    xlsx = pd.read_excel(output_name)
-    mydb = client['Test_CommerceGroup']
-    mycol = mydb[col_name]
-    docs = json.loads(xlsx.T.to_json()).values()
-
-    mycol.insert_many(docs)
-
-
-from_xlsx_to_mongodb('output1.xlsx', '18MoreAnd21andLess')
-from_xlsx_to_mongodb('output2.xlsx', '35AndMore')
-from_xlsx_to_mongodb('output3.xlsx', 'ArchitectEnterTime')
+# client = MongoClient('localhost', 27017)
+#
+# def from_xlsx_to_mongodb(output_name, col_name):
+#     xlsx = pd.read_excel(output_name)
+#     mydb = client['Test_CommerceGroup']
+#     mycol = mydb[col_name]
+#     docs = json.loads(xlsx.T.to_json()).values()
+#
+#     mycol.insert_many(docs)
+#
+# from_xlsx_to_mongodb('output1.xlsx', '18MoreAnd21andLess')
+# from_xlsx_to_mongodb('output2.xlsx', '35AndMore')
+# from_xlsx_to_mongodb('output3.xlsx', 'ArchitectEnterTime')
