@@ -77,15 +77,15 @@ from_df_to_xlsx(df_third_condition, 'third_sheet', 'output3.xlsx')
 
 
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://root:root@localhost:27017/?authMechanism=SCRAM-SHA-1')
 
-def from_xlsx_to_mongodb(output_name, col_name):
-    xlsx = pd.read_excel(output_name)
-    mydb = client['Test_CommerceGroup1']
+def from_dataframe_to_mongodb(df, col_name):
+    mydb = client['Test_CommerceGroup5']
     mycol = mydb[col_name]
-    docs = json.loads(xlsx.T.to_json()).values()
+    docs = json.loads(df.T.to_json()).values()
 
     mycol.insert_many(docs)
 
-from_xlsx_to_mongodb('output2.xlsx', '18MoreAnd21andLess')
-
+from_dataframe_to_mongodb(df_first_condition, '18MoreAnd21andLess')
+from_dataframe_to_mongodb(df_second_condition, '35AndMore')
+from_dataframe_to_mongodb(df_third_condition, 'ArchitectEnterTime')
