@@ -18,3 +18,12 @@ df = pd.DataFrame(data)
 df['Datetime'] = pd.to_datetime(df['Datetime'])
 
 df_first_condition = df.copy()
+
+def set_time_by_condition(age, job):
+    if 18 < age <= 21 and 'Developer' in job:
+        return datetime.time(9, 0, 0)
+    if 'Developer' in job:
+        return datetime.time(9, 15, 0)
+
+
+df_first_condition['TimetoEnter'] = df.apply(lambda x: set_time_by_condition(x['Age'], x['Job']), axis=1)
