@@ -17,19 +17,19 @@ data = {'id': [1, 2, 3, 4, 5, 6, 7],
 df = pd.DataFrame(data)
 df['Datetime'] = pd.to_datetime(df['Datetime'])
 
-all_col_first = df.copy()
-all_col_second = df.copy()
-all_col_third = df.copy()
+df_first_condition = df.copy()
+df_second_condition = df.copy()
+df_third_condition = df.copy()
 
 # three main tasks
 def first_task(age, job):
     if 18 < age <= 21 and 'Developer' in job:
         return datetime.time(9, 0, 0, 0)
     if 'Developer' in job:
-        return datetime.time(9, 15, 00)
+        return datetime.time(9, 15, 0, 0)
 
 
-all_col_first['TimetoEnter'] = df.apply(lambda x: first_task(x['Age'], x['Job']), axis=1)
+df_first_condition['TimetoEnter'] = df.apply(lambda x: first_task(x['Age'], x['Job']), axis=1)
 
 
 def second_task(age, job):
@@ -39,7 +39,7 @@ def second_task(age, job):
         return datetime.time(11, 30, 0, 0)
 
 
-all_col_second['TimetoEnter'] = df.apply(lambda x: second_task(x['Age'], x['Job']), axis=1)
+df_second_condition['TimetoEnter'] = df.apply(lambda x: second_task(x['Age'], x['Job']), axis=1)
 
 
 def third_task(job):
@@ -49,7 +49,7 @@ def third_task(job):
         return datetime.time(10, 40, 0, 0)
 
 
-all_col_third['TimetoEnter'] = df.apply(lambda x: third_task(x['Job']), axis=1)
+df_third_condition['TimetoEnter'] = df.apply(lambda x: third_task(x['Job']), axis=1)
 
 
 
@@ -57,16 +57,17 @@ all_col_third['TimetoEnter'] = df.apply(lambda x: third_task(x['Job']), axis=1)
 def from_df_to_xlsx(all_col, sheet_name, output_name, wb):
     var = [all_col.columns] + list(all_col.values)
     sheet = wb.new_sheet(sheet_name, data=var)
-    sheet.range('F2', 'F8').style.format.format = 'hh/mm/ss'
-    sheet.range('G2', 'G8').style.format.format = 'hh/mm/ss'
+    sheet.range('F2', 'F8').style.format.format = 'yyyy-mm-dd hh:mm'
+    sheet.range('G2', 'G8').style.format.format = 'hh:mm:ss'
 
     # TODO use byteIO not to create intermediate xlsx file
 
     return wb.save(output_name)
 
 
+
 from_df_to_xlsx(all_col_first, 'first_sheet', 'output1.xlsx', Workbook())
-from_df_to_xlsx(all_col_second, 'second_sheet', 'output2.xlsx', Workbook())
+from_df_to_xlsx(df_second_condition, 'second_sheet', 'output2.xlsx', Workbook())
 from_df_to_xlsx(all_col_third, 'third_sheet', 'output3.xlsx', Workbook())
 
 
