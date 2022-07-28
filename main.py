@@ -18,6 +18,7 @@ df = pd.DataFrame(data)
 df['Datetime'] = pd.to_datetime(df['Datetime'])
 
 df_first_condition = df.copy()
+df_second_condition = df.copy()
 
 def set_time_by_condition(age, job):
     if 18 < age <= 21 and 'Developer' in job:
@@ -27,6 +28,16 @@ def set_time_by_condition(age, job):
 
 
 df_first_condition['TimetoEnter'] = df.apply(lambda x: set_time_by_condition(x['Age'], x['Job']), axis=1)
+
+
+def second_task(age, job):
+    if age >= 35 and ('Developer' and "Manager") in job:
+        return datetime.time(11, 0, 0, 0)
+    else:
+        return datetime.time(11, 30, 0, 0)
+
+
+df_second_condition['TimetoEnter'] = df.apply(lambda x: second_task(x['Age'], x['Job']), axis=1)
 
 
 def from_df_to_xlsx(df, sheet_name, output_name):
@@ -50,4 +61,20 @@ def from_df_to_xlsx(df, sheet_name, output_name):
     return wb.save(output_name)
 
 
-from_df_to_xlsx(df_first_condition, 'first_sheet', 'output2.xlsx')
+from_df_to_xlsx(df_first_condition, 'first_sheet', 'output1.xlsx')
+from_df_to_xlsx(df_second_condition, 'second_sheet', 'output2.xlsx')
+
+
+
+client = MongoClient('localhost', 27017)
+
+def from_xlsx_to_mongodb(output_name, col_name):
+    xlsx = pd.read_excel(output_name)
+    mydb = client['Test_CommerceGroup1']
+    mycol = mydb[col_name]
+    docs = json.loads(xlsx.T.to_json()).values()
+
+    mycol.insert_many(docs)
+
+from_xlsx_to_mongodb('output2.xlsx', '18MoreAnd21andLess')
+
