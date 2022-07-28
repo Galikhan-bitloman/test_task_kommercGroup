@@ -17,6 +17,6 @@ Installation:
 
 4)run mongodb as a MacOS service: brew services start mongodb-community
 
-5) make connection in MongoDB Compass 
+5)make connection in MongoDB Compass 
 
 6)run python3 main.py
