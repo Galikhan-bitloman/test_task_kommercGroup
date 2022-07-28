@@ -33,18 +33,18 @@ df_first_condition['TimetoEnter'] = df.apply(lambda x: set_time_by_condition(x['
 
 def second_task(age, job):
     if age >= 35 and ('Developer' and "Manager") in job:
-        return datetime.time(11, 0, 0, 0)
+        return datetime.time(11, 0, 0)
     else:
-        return datetime.time(11, 30, 0, 0)
+        return datetime.time(11, 30, 0)
 
 df_second_condition['TimetoEnter'] = df.apply(lambda x: second_task(x['Age'], x['Job']), axis=1)
 
 
 def third_task(job):
     if 'architect' in job:
-        return datetime.time(10, 30, 0, 0)
+        return datetime.time(10, 30, 0)
     else:
-        return datetime.time(10, 40, 0, 0)
+        return datetime.time(10, 40, 0)
 
 
 df_third_condition['TimetoEnter'] = df.apply(lambda x: third_task(x['Job']), axis=1)
