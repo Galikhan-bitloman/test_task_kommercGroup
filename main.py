@@ -27,3 +27,27 @@ def set_time_by_condition(age, job):
 
 
 df_first_condition['TimetoEnter'] = df.apply(lambda x: set_time_by_condition(x['Age'], x['Job']), axis=1)
+
+
+def from_df_to_xlsx(df, sheet_name, output_name):
+    wb = Workbook()
+    sheet = wb.new_sheet(sheet_name)
+    origin = (1,1)
+    column_length = 0
+    row_length = 0
+    columns = df.columns.tolist()
+    row = origin[0] + row_length
+    column = origin[1] + column_length
+    sheet.range((row, column), (row, column+len(columns))).value = [[*columns]]
+    row_length += 1
+    df_row_num = df.shape[0]
+    df_column_num = df.shape[1]
+    row = origin[0] + row_length
+    column = origin[1] + column_length
+    sheet.range((row, column), (row+df_row_num, column + df_column_num)).value = df.values.tolist()
+    sheet.range('F2', 'F8').style.format.format = 'yyyy-mm-dd hh:mm'
+    sheet.range('G2', 'G8').style.format.format = 'hh:mm:ss'
+    return wb.save(output_name)
+
+
+from_df_to_xlsx(df_first_condition, 'first_sheet', 'output2.xlsx')
